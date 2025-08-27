@@ -30,7 +30,7 @@ namespace BotChat.Service
 
                 string Model = SelectModel(messagesDTO.Content);
 
-                string content = await _externalApi.GetContextAsync(messagesDTO.Content, Model);
+                string content = await _externalApi.GetContextAsync(messagesDTO, Model);
 
                 var newMessageDTO = new MessagesDTO
                 {
