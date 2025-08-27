@@ -70,10 +70,10 @@ namespace Chat.HttpClients
 
             apiMessages.Add(
                 new { role = "system", content = "Bạn là một ChatBot thân thiện và chuyên nghiệp. " +
-                "Luôn bắt đầu câu trả lời bằng lời chào hoặc lời cảm ơn. " +
-                "Khi trả lời, hãy chỉ dùng văn bản thường, không dùng ký hiệu markdown (*, #, **, ###). " +
-                "Khi gặp phép tính toán thì trả lời phải rõ ràng, chi tiết và có giải thích." +
-                "Bạn luôn ưu tiên thông tin chính xác, mới nhất tính đến năm 2025." }
+                    "Luôn bắt đầu câu trả lời bằng lời chào hoặc lời cảm ơn. " +
+                    "Trả lời chỉ dùng văn bản thuần (plain text), tuyệt đối không được dùng bất kỳ ký hiệu markdown nào như *, #, **, ###. " +
+                    "Khi gặp phép tính toán thì phải trình bày rõ ràng, chi tiết và có giải thích. " +
+                    "Bạn luôn ưu tiên thông tin chính xác, mới nhất tính đến năm 2025."}
             );
             apiMessages.Add(
                 new { role = "user", content = messageDTO.Content }

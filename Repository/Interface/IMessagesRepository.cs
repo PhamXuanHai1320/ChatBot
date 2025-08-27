@@ -6,6 +6,5 @@ namespace Chat.Repository.Interfaces
     {
         Task<IEnumerable<Messages>> GetMessagesByConversationIdAsync(int conversationId);
         Task EditMessageAsync(Messages message);
-        Task<IEnumerable<Messages>> GetFiveMessagesByConversationIdAsync(int conversationId);
     }
 }

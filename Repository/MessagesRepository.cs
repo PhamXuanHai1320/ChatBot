@@ -26,14 +26,5 @@ namespace Chat.Repository
                 .Where(m => m.ConversationId == conversationId)
                 .ToListAsync();
         }
-
-        public async Task<IEnumerable<Messages>> GetFiveMessagesByConversationIdAsync(int conversationId)
-        {
-            return await _context.Messages
-                .Where(m => m.ConversationId == conversationId && m.User == "User")
-                .OrderByDescending(m => m.CreatedAt)
-                .Take(5)
-                .ToListAsync();
-        }
     }
 }
