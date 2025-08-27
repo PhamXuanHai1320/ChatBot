@@ -28,7 +28,9 @@ namespace BotChat.Service
                 messagesDTO.User = "User";
                 var result = await AddAsync(messagesDTO);
 
-                string content = await _externalApi.GetContextAsync(messagesDTO.Content);
+                string Model = SelectModel(messagesDTO.Content);
+
+                string content = await _externalApi.GetContextAsync(messagesDTO.Content, Model);
 
                 var newMessageDTO = new MessagesDTO
                 {
@@ -122,7 +124,7 @@ namespace BotChat.Service
         {
             try
             {
-                var message = _mapper.Map<Chat.Models.Messages>(messagesDTO);
+                var message = _mapper.Map<Messages>(messagesDTO);
                 if (message == null)
                 {
                     throw new ArgumentNullException(nameof(messagesDTO), "Message data cannot be null.");
@@ -137,6 +139,17 @@ namespace BotChat.Service
                 throw new Exception("An error occurred while adding the message.", ex);
             }
         }
-
+        private String SelectModel(string query)
+        {
+            string[] keyWords = { "tính toán", "giải thích", "phân tích", "toán học", "chứng minh", "lập luận" };
+            foreach (var keyword in keyWords)
+            {
+                if (query.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                {
+                    return "DeepSeek-R1";
+                }
+            }
+            return "DeepSeek-V3";
+        }
     }
 }

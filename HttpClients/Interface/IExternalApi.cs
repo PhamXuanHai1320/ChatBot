@@ -2,6 +2,6 @@
 {
     public interface IExternalApi
     {
-        Task<string> GetContextAsync(string query);
+        Task<string> GetContextAsync(string query, string Model);
     }
 }
