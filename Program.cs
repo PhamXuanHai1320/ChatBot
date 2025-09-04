@@ -20,10 +20,10 @@ using Chat.HttpClients;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Xóa mapping m?c ??nh c?a JWT claims
+// Xóa mapping mặc định của JWT claims
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-// ??ng ký DbContext
+// đăng ký DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "BotChat API", Version = "v1" });
 
-    // C?u hình JWT Bearer cho Swagger
+    // Cấu hình JWT Bearer cho Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -68,27 +68,27 @@ builder.Services.AddCors(options =>
     });
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()   // Cho phép t?t c? domain (dev)
+        policy.AllowAnyOrigin()   // Cho phép tất cả domain (dev)
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
 });
 
-// ??ng ký Identity
+// đăng ký Identity
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// ??ng ký AutoMapper
+// đăng ký AutoMapper
 builder.Services.AddAutoMapper(typeof(AppMapperProfile));
 
-// ??ng ký Repository
+// đăng ký Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IConversationsRepository, ConversationsRepository>();
 builder.Services.AddScoped<IMessagesRepository, MessagesRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// ??ng ký Service
+// đăng ký Service
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IConversationsService, ConversationsService>();
 builder.Services.AddScoped<IMessagesService, MessagesService>();
@@ -98,7 +98,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 // Đăng ký HttpClient cho các dịch vụ bên ngoài
 builder.Services.AddScoped<IExternalApi, ExternalApi>();
 
-// C?u hình xác th?c JWT
+// Cấu hình xác thực JWT
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -128,16 +128,16 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddHttpClient();
 
-// ??ng ký Razor Pages
+// đăng ký Razor Pages
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 
-// ??ng ký Swagger
+// đăng ký Swagger
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-// S? d?ng Swagger ? môi tr??ng phát tri?n
+// Sử dụng Swagger môi trường phát triển
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

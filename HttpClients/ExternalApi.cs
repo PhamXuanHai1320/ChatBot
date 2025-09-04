@@ -57,27 +57,32 @@ namespace Chat.HttpClients
         {
             IEnumerable<Messages> messages = await _unitOfWork.MessagesRepository
                 .GetMessagesByConversationIdAsync(messageDTO.ConversationId);
-            var apiMessages = new List<object>();
 
-            foreach (var msg in messages)
-            {
-                apiMessages.Add(new
+            var apiMessages = messages
+                .Select(msg => new
                 {
                     role = "assistant",
                     content = msg.Content
-                });
-            }
+                })
+                .ToList<object>();
 
-            apiMessages.Add(
-                new { role = "system", content = "Bạn là một ChatBot thân thiện và chuyên nghiệp. " +
-                    "Luôn bắt đầu câu trả lời bằng lời chào hoặc lời cảm ơn. " +
-                    "Trả lời chỉ dùng văn bản thuần (plain text), tuyệt đối không được dùng bất kỳ ký hiệu markdown nào như *, #, **, ###. " +
-                    "Khi gặp phép tính toán thì phải trình bày rõ ràng, chi tiết và có giải thích. " +
-                    "Bạn luôn ưu tiên thông tin chính xác, mới nhất tính đến năm 2025."}
-            );
-            apiMessages.Add(
-                new { role = "user", content = messageDTO.Content }
-            );
+            apiMessages.Add(new
+            {
+                role = "system",
+                content = "Bạn là một ChatBot thân thiện và chuyên nghiệp. " +
+                "Luôn bắt đầu câu trả lời bằng lời chào hoặc lời cảm ơn. " +
+                "Mọi câu trả lời phải hoàn toàn là văn bản thuần (plain text). " +
+                "Tuyệt đối không được sử dụng hoặc sinh ra bất kỳ ký hiệu Markdown, HTML, LaTeX, hoặc ký tự định dạng đặc biệt nào. " +
+                "Nếu người dùng hỏi có ví dụ code, bạn phải trả về dưới dạng văn bản thuần không được render, không được highlight cú pháp."+
+                "Khi gặp phép tính toán thì phải trình bày rõ ràng, chi tiết và có giải thích. " +
+                "Bạn luôn ưu tiên thông tin chính xác, mới nhất tính đến năm 2025."
+            });
+            apiMessages.Add(new
+            {
+                role = "user",
+                content = messageDTO.Content
+            });
+
             return apiMessages;
         }
     }
