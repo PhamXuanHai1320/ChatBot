@@ -33,7 +33,7 @@ namespace Chat.Service
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(5),
+                expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: credentials
             );
 

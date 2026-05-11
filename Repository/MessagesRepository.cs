@@ -20,8 +20,7 @@ namespace Chat.Repository
         public async Task<IEnumerable<Messages>> GetMessagesByConversationIdAsync(int conversationId)
         {
             return await _context.Messages
-                .Where(m => m.ConversationId == conversationId)
-                .OrderBy(m => m.CreatedAt)
+                .FromSqlRaw("SELECT * FROM Messages WHERE ConversationId = {0} ORDER BY CreatedAt ASC", conversationId)
                 .ToListAsync();
         }
     }

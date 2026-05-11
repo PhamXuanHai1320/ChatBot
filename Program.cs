@@ -92,8 +92,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IConversationsService, ConversationsService>();
 builder.Services.AddScoped<IMessagesService, MessagesService>();
-builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+//Đăng ký Signleton cho BotChatService
+builder.Services.AddSingleton<IJwtService, JwtService>();
 
 // Đăng ký HttpClient cho các dịch vụ bên ngoài
 builder.Services.AddScoped<IExternalApi, ExternalApi>();

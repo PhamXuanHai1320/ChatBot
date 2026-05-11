@@ -28,9 +28,7 @@ namespace BotChat.Service
                 messagesDTO.User = "User";
                 var result = await AddAsync(messagesDTO);
 
-                string Model = SelectModel(messagesDTO.Content);
-
-                string content = await _externalApi.GetContextAsync(messagesDTO, Model);
+                string content = await _externalApi.GetContextAsync(messagesDTO, "gemini-2.5-flash");
 
                 var newMessageDTO = new MessagesDTO
                 {
@@ -138,18 +136,6 @@ namespace BotChat.Service
                 // Log the exception
                 throw new Exception("An error occurred while adding the message.", ex);
             }
-        }
-        private String SelectModel(string query)
-        {
-            string[] keyWords = { "tính toán", "giải thích", "phân tích", "toán học", "chứng minh", "lập luận" };
-            foreach (var keyword in keyWords)
-            {
-                if (query.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-                {
-                    return "DeepSeek-R1";
-                }
-            }
-            return "DeepSeek-V3";
         }
     }
 }
